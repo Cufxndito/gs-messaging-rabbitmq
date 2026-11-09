@@ -17,6 +17,25 @@ You will build an application that publishes a message by using Spring AMQP's `R
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/guide_introduction.adoc[]
 
+== WebSocket/STOMP broker relay
+
+The `complete` application also exposes a WebSocket/STOMP endpoint at `/ws`.
+Messages sent to `/app/chat` are published to `/topic/public` through RabbitMQ's
+STOMP broker relay. The relay connects to RabbitMQ on `localhost:61613`, while
+the AMQP connection uses `localhost:5672` with the `guest`/`guest` credentials.
+
+Start RabbitMQ with STOMP enabled before launching the application:
+
+[source,shell]
+----
+cd complete
+docker compose up -d
+./mvnw spring-boot:run # Windows: mvnw.cmd spring-boot:run
+----
+
+The provided `compose.yaml` exposes the RabbitMQ management console at
+http://localhost:15672 and enables the `rabbitmq_stomp` plugin.
+
 == Setting up the RabbitMQ Broker
 
 Before you can build your messaging application, you need to set up a server to handle receiving and sending messages.
